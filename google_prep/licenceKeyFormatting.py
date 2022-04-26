@@ -6,25 +6,41 @@
 
 class Solution:
     def licenseKeyFormatting(self, s: str, k: int) -> str:
-
-        temp = "".join([x for x in s.split('-')])
-        str_ttl = len(temp)
-        print(temp, str_ttl)
-        count = k
+        s_new = s.split('-')
+        temp1 = "".join([x for x in s_new ])
         new_str = ""
-        if str_ttl % k == 0:
-            for i in range(len(temp),k):
-                new_str = new_str +"-"
-        if new_str[len(new_str)-1] == '-':
+        if len(temp1) == 0:
+            return ""
+        elif len(temp1) < k:
+            return s
+        elif len(temp1) % k == 0:
+            for i in range(0, len(temp1),k):
+                new_str = new_str + temp1[i: i+k]+"-"
+        else:
+            for i in range(len(temp1)-1, -1, -k):
+                if i >= k:
+                    new_str = "-"+ temp1[i-k+1:i+1] + new_str
+                else:
+                    i+=1
+                    break
+
+            if 0 < i < k:
+                new_str = temp1[0: i] + new_str
+
+        if new_str[0] == '-':
+            return new_str[1:len(new_str)].upper()
+        elif new_str[len(new_str)-1] == '-':
             return new_str[0:len(new_str)-1].upper()
 
-
-        return new_str.upper()
+        else:
+            return new_str.upper()
 
 
 sel =  Solution()
-# s = "5F3Z-2e-9-w"
-# k = 4
-s = "2-5g-3-J"
-k = 2
+#s = "5F3Z-2e-9-w"
+#k = 4
+#s = "2-4A0r7-4k"
+
+s = "---"
+k = 3
 sel.licenseKeyFormatting(s,k)
